@@ -1,23 +1,37 @@
-from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import Department
-from .forms import DepartmentForm
+from django.contrib.auth.models import User
 from django.contrib import messages
+from .models import Department
+from .forms import DepartmentForm,RegisterForm
+from django.shortcuts import render, redirect,get_object_or_404
+
+def register(request):
+    if request.method == 'POST':
+        reg=RegisterForm(request.POST)
+        if reg.is_valid():
+            reg.save()
+            messages.success(request,'Registration Successfully !!')
+            return redirect('register')
+    else:
+        reg=RegisterForm()
+    return render(request,'core/register.html',{'reg':reg})
+
 
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
+        
         if user is not None:
             login(request, user)
             if user.is_superuser:
                 messages.success(request, 'Login successful. Welcome to the Dashboard!')
-                return redirect('dashboard')
+                return redirect('dashboard')  
             else:
-                messages.error(request, 'Only admins can access the dashboard.')
-                return redirect('login')
+                messages.success(request, 'Login successful. Welcome to the dashboard!')
+                return redirect('user_dashboard') 
         else:
             messages.error(request, 'Invalid username or password.')
     return render(request, 'core/login.html')
@@ -35,6 +49,16 @@ def dashboard(request):
         return redirect('login')
     departments = Department.objects.filter(status=True)
     return render(request, 'core/home.html', {'departments': departments})
+
+@login_required
+def user_dashboard(request):
+    
+    user_data = Department.objects.filter(status=True)
+    if not user_data.exists():
+        messages.error(request, 'No data found for your account.')
+        return redirect('login')  
+
+    return render(request, 'core/user_dashboard.html', {'user_data': user_data})
 
 @login_required
 def add_department(request):

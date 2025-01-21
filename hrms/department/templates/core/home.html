@@ -206,7 +206,7 @@
             {% endfor %}
         </ul>
     {% endif %}
-    <button class="logout-button" href='{% url 'logout' %}'>Logout</button>
+    <button class="logout-button" href={% url 'logout' %}>Logout</button>
     <h1>Dashboard</h1>
     <a href="{% url 'add_department' %}" class="add-department-link">Add Department</a>
     <table class="department-table">
