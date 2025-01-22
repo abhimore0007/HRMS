@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+{% extends "core/index.html" %}
+{% block content %}
     <style>
         /* Global styles for the body */
         body {
@@ -102,8 +98,6 @@
             transition: background-color 0.3s ease;
         }
     </style>
-</head>
-<body>
 
 <div class="login-container">
     <div class="login-form">
@@ -137,5 +131,7 @@
     </div>
 </div>
 
-</body>
-</html>
+    
+    
+    
+{% endblock content %}
