@@ -36,6 +36,9 @@ def login_view(request):
             messages.error(request, 'Invalid username or password.')
     return render(request, 'core/login.html')
 
+def home_page(request):
+    return render(request,'core/home_page.html')
+
 @login_required
 def logout_view(request):
     logout(request)

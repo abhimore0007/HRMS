@@ -4,159 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
-
-        .register-container {
-            max-width: 500px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .register-container h2 {
-            margin-bottom: 20px;
-            text-align: center;
-            color: #333;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            color: #555;
-            font-weight: bold;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-
-        .form-group input:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-
-        .btn-primary {
-            width: 100%;
-            padding: 12px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .alert-danger {
-            background-color: #f8d7da;
-            border-color: #f5c6cb;
-            color: #721c24;
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 4px;
-        }
-
-        .alert-danger p {
-            margin: 0;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .text-center p {
-            margin-top: 15px;
-        }
-
-        .text-center a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .text-center a:hover {
-            text-decoration: underline;
-        }
-
-        .top-right-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-        }
-
-        .top-right-btn button {
-            padding: 8px 12px;
-            background-color: #6c757d;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .top-right-btn button:hover {
-            background-color: #5a6268;
-        }
-    </style>
 </head>
 <body>
-    <section class="vh-100 background-section">
-        <div class="register-container">
-            <h2 class="fw-bold mb-4 text-center">Register Form</h2>
+{% block content %}
+<!-- Home button in top-right corner -->
+<button class="home-btn">Home</button>
 
-            <form action="{% url 'register' %}" method="POST">
-                {% csrf_token %}
-                
-                {% if log.non_field_errors %}
-                <div class="alert alert-danger">
-                    {% for error in log.non_field_errors %}
-                    <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
-                {% endif %}
-                
-                {% if messages %}
-                <div class="alert alert-danger">
-                    {% for message in messages %}
+<div class="container">
+    <div class="form-container">
+        <h2>Register</h2>
+        
+        <!-- Display success messages -->
+        {% if messages %}
+            <div class="alert alert-success" role="alert">
+                {% for message in messages %}
                     <p>{{ message }}</p>
-                    {% endfor %}
-                </div>
-                {% endif %}
-                
-                {% for reg in reg %}
-                <div class="form-group mb-3">
-                    {{ reg }}
-                </div>
                 {% endfor %}
-                
-                <!-- Submit button -->
-                <div class="pt-1 mb-4">
-                    <button class="btn-primary" type="submit">Register</button>
-                </div>
+            </div>
+        {% endif %}
+        
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="id_username" class="form-label">Username</label>
+                {{ reg.username }}
+            </div>
+            
+            <div class="mb-3">
+                <label for="id_email" class="form-label">Email</label>
+                {{ reg.email }}
+            </div>
+            
+            <div class="mb-3">
+                <label for="id_password1" class="form-label">Password</label>
+                {{ reg.password1 }}
+            </div>
+            
+            <div class="mb-3">
+                <label for="id_password2" class="form-label">Confirm Password</label>
+                {{ reg.password2 }}
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+        
+        <p class="mt-3 text-center">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+    </div>
+</div>
+{% endblock content %}
 
-                <!-- Additional Links -->
-                <div class="text-center">
-                    <p class="mt-3">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
-                </div>
-            </form>
-        </div>
-    </section>
-</body>
-</html>
