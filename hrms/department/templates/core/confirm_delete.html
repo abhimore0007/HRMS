@@ -1,6 +1,8 @@
 {% extends "core/index.html" %}
 
-{% block css %}
+{% block title %}{{ block.super }}Delete{% endblock title %}
+
+{% block content %}
 <style>
     /* Global Styles */
     body {
@@ -92,11 +94,9 @@
         }
     }
 </style>
-{% endblock css %}
 
-{% block title %}{{ block.super }}Delete{% endblock title %}
 
-{% block content %}
+
 <div class="deactivate-container">
     <h1>Deactivate Department</h1>
     <p>

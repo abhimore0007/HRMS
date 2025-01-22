@@ -12,7 +12,7 @@ def register(request):
         if reg.is_valid():
             reg.save()
             messages.success(request,'Registration Successfully !!')
-            return redirect('register')
+            return redirect('login')
     else:
         reg=RegisterForm()
     return render(request,'core/register.html',{'reg':reg})
@@ -42,8 +42,7 @@ def home_page(request):
 @login_required
 def logout_view(request):
     logout(request)
-    messages.success(request, 'You have logged out successfully.')
-    return redirect('login')
+    return redirect('home_page')
 
 @login_required
 def dashboard(request):
@@ -51,7 +50,7 @@ def dashboard(request):
         messages.error(request, 'Access restricted to administrators.')
         return redirect('login')
     departments = Department.objects.filter(status=True)
-    return render(request, 'core/home.html', {'departments': departments})
+    return render(request, 'core/Admin_dashboard.html', {'departments': departments})
 
 @login_required
 def user_dashboard(request):

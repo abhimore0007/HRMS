@@ -1,6 +1,6 @@
 {% extends "core/index.html" %}
 
-{% block css %}
+{% block content %}
 <style>
     /* General Styles */
     body {
@@ -8,6 +8,7 @@
         background-color: #f4f4f9;
         margin: 0;
         padding: 0;
+        color: #333;
     }
 
     #add-department {
@@ -15,7 +16,7 @@
         margin: 50px auto;
         padding: 30px;
         border-radius: 10px;
-        width: 50%;
+        width: 60%;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         transition: box-shadow 0.3s ease-in-out;
     }
@@ -25,7 +26,7 @@
     }
 
     h1 {
-        font-size: 28px;
+        font-size: 32px;
         color: #333;
         margin-bottom: 20px;
         text-align: center;
@@ -134,38 +135,54 @@
         font-size: 18px;
     }
 
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        #add-department {
+            width: 80%;
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+
+        button {
+            font-size: 14px;
+            padding: 10px 15px;
+        }
+
+        a {
+            font-size: 12px;
+        }
+    }
 </style>
-{% endblock css %}
 
-{% block title %}{{ block.super }} Add Department{% endblock title %}
+<!-- Display Messages at the Top -->
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li class="message message-{{ message.tags }}">
+                <i class="fas fa-exclamation-circle"></i> {{ message }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
 
-{% block content %}
-    <!-- Display Messages at the Top -->
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li class="message message-{{ message.tags }}">
-                    <i class="fas fa-exclamation-circle"></i>{{ message }}
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+<div id="add-department">
+    <h1>Add Department</h1>
+    <form method="post">
+        {% csrf_token %}
+        
+        <!-- Department Name -->
+        <label for="id_name">Department Name</label>
+        {{ form.name }}
+        
+        <!-- Department Description -->
+        <label for="id_description">Department Description</label>
+        {{ form.description }}
 
-    <div id="add-department">
-        <h1>Add Department</h1>
-        <form method="post">
-            {% csrf_token %}
-            
-            <!-- Department Name -->
-            <label for="id_name">Department Name</label>
-            {{ form.name }}
-            
-            <!-- Department Description -->
-            <label for="id_description">Department Description</label>
-            {{ form.description }}
+        <button type="submit">Add</button>
+    </form>
+    <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+</div>
 
-            <button type="submit">Add</button>
-        </form>
-        <a href="{% url 'dashboard' %}">Back to Dashboard</a>
-    </div>
 {% endblock content %}

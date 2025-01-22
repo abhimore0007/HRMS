@@ -1,8 +1,7 @@
 {% extends "core/index.html" %}
 
 {% block title %}{{ block.super }}Update Department{% endblock title %}
-
-{% block css %}
+{% block content %}
 <style>
     /* Global Styles */
     body {
@@ -128,9 +127,7 @@
         padding: 12px;
     }
 </style>
-{% endblock css %}
 
-{% block content %}
 <div class="update-container">
     <h1>Update Department</h1>
     <form method="post">
